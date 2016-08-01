@@ -24,15 +24,16 @@ public class StatelessTokenFilter extends GenericFilterBean {
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain)
 			throws IOException, ServletException {
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		if (authentication != null) {
+		if (SecurityContextHolder.getContext().getAuthentication() != null) {
 			// Already authenticated.
 			filterChain.doFilter(request, response);
 			return;
 		}
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
 		final String token = httpRequest.getHeader(AUTHORIZATION_HEADER_NAME);
-		tokenService.validateToken(token);
+		JwtSubject subject = tokenService.validateToken(token);
+		Authentication auth = new AppAuthentication(subject.getAppId());
+		SecurityContextHolder.getContext().setAuthentication(auth);
 		// Token's valid, move on next filter in the chain.
 		filterChain.doFilter(request, response);
 	}
