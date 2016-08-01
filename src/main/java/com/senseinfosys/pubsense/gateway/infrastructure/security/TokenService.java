@@ -33,7 +33,7 @@ public class TokenService {
 		Date issuedAt = new Date();
 		Date expiredAt = new Date(issuedAt.getTime() + expiration);
 		String token = Jwts.builder().setSubject(jsonService.serialize(new JwtSubject(appId)))
-				.signWith(SignatureAlgorithm.HS512, secret).setIssuedAt(issuedAt).setExpiration(expiredAt).compact();
+				.signWith(SignatureAlgorithm.HS256, secret).setIssuedAt(issuedAt).setExpiration(expiredAt).compact();
 		return new JwtResponse(token, expiredAt);
 	}
 
