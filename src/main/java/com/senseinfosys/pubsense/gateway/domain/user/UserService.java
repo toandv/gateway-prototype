@@ -1,14 +1,11 @@
 package com.senseinfosys.pubsense.gateway.domain.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class UserService implements UserDetailsService {
+public class UserService {
 
 	private UserRepository userRepository;
 
@@ -21,18 +18,9 @@ public class UserService implements UserDetailsService {
 		return userRepository.findByUsername(username);
 	}
 
+	@Transactional(readOnly = true)
 	public User findByUsernameAndPassword(String username, String password) {
 		return userRepository.findByUsernameAndPassword(username, password);
 	}
 
-	@Override
-	@Transactional(readOnly = true)
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		User user = userRepository.findByUsername(username);
-		if (user == null) {
-			throw new UsernameNotFoundException("User: " + username + " not found.");
-		}
-		return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),
-				user.rolesToAuthorities());
-	}
 }

@@ -1,47 +1,46 @@
 package com.senseinfosys.pubsense.gateway.infrastructure.security;
 
-import java.util.Arrays;
 import java.util.Collection;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 
-public class AppAuthentication implements Authentication {
+public class UserAuthentication implements Authentication {
 
-	private static final long serialVersionUID = 4569259191013858943L;
+	private static final long serialVersionUID = -6092868712033501660L;
 
-	private final String appId;
+	private final User user;
 
 	private boolean authenticated = true;
 
-	public AppAuthentication(String appId) {
-		this.appId = appId;
+	public UserAuthentication(User user) {
+		this.user = user;
 	}
 
 	@Override
 	public String getName() {
-		return appId;
+		return user.getUsername();
 	}
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return Arrays.asList(new SimpleGrantedAuthority("ROLE_APP"));
+		return user.getAuthorities();
 	}
 
 	@Override
 	public Object getCredentials() {
-		return appId;
+		return user.getPassword();
 	}
 
 	@Override
-	public Object getDetails() {
-		return appId;
+	public User getDetails() {
+		return user;
 	}
 
 	@Override
 	public Object getPrincipal() {
-		return appId;
+		return user.getUsername();
 	}
 
 	@Override
@@ -50,8 +49,8 @@ public class AppAuthentication implements Authentication {
 	}
 
 	@Override
-	public void setAuthenticated(boolean isAuthenticated) {
-		this.authenticated = isAuthenticated;
+	public void setAuthenticated(boolean authenticated) {
+		this.authenticated = authenticated;
 	}
 
 }

@@ -33,21 +33,18 @@ public class AppController {
 	@PostMapping(path = "/apps/register")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public AppRegisterResponse registerApp(@RequestBody AppRegisterRequest appRequest) {
-		SecurityContextHolder.getContext().setAuthentication(null);
 		Application app = appService.createApp(appRequest.getRegisterAppId());
 		return new AppRegisterResponse(app.getId(), app.getSecret(), app.getRegisterAppId());
 	}
 
 	@GetMapping(path = "/apps")
 	public List<Application> listApps() {
-		SecurityContextHolder.getContext().setAuthentication(null);
 		return appService.findAll();
 	}
 
-	@PostMapping(path = "/apps/auth/token")
-	public JwtResponse getAccessToken(@RequestBody AppAuthTokenRequest appAuthTokenRequest) {
-		SecurityContextHolder.getContext().setAuthentication(null);
-		Application app = appService.find(appAuthTokenRequest.getAppId(), appAuthTokenRequest.getAppSecret());
-		return tokenService.getJwtResponse(app);
+	@PostMapping(path = "/apps/token")
+	public JwtResponse getAccessToken() {
+		String appId = SecurityContextHolder.getContext().getAuthentication().getName();
+		return tokenService.getJwtResponse(appId);
 	}
 }

@@ -36,6 +36,7 @@ public class AppService {
 
 	@Transactional(isolation = Isolation.READ_COMMITTED)
 	public Application createApp(String registerAppId) {
+		// TODO - check if registerAppId is registered
 		Application app = new Application(IdFactory.getUUID(), SecretFactory.getSecret(Application.SECRET_LENGTH),
 				registerAppId);
 		return appRepository.save(app);

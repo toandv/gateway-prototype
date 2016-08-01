@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
-import com.senseinfosys.pubsense.gateway.domain.app.Application;
 import com.senseinfosys.pubsense.gateway.infrastructure.json.JsonService;
 
 import io.jsonwebtoken.Jwts;
@@ -30,10 +29,10 @@ public class TokenService {
 				* DateTimeConstants.MILLIS_PER_HOUR;
 	}
 
-	public JwtResponse getJwtResponse(Application app) {
+	public JwtResponse getJwtResponse(String appId) {
 		Date issuedAt = new Date();
 		Date expiredAt = new Date(issuedAt.getTime() + expiration);
-		String token = Jwts.builder().setSubject(jsonService.serialize(new JwtSubject(app.getId())))
+		String token = Jwts.builder().setSubject(jsonService.serialize(new JwtSubject(appId)))
 				.signWith(SignatureAlgorithm.HS512, secret).setIssuedAt(issuedAt).setExpiration(expiredAt).compact();
 		return new JwtResponse(token, expiredAt);
 	}
