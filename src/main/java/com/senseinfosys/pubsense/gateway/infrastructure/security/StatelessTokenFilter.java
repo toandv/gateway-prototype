@@ -2,6 +2,7 @@ package com.senseinfosys.pubsense.gateway.infrastructure.security;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.Base64;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -13,7 +14,6 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
-import org.springframework.security.crypto.codec.Base64;
 import org.springframework.web.filter.GenericFilterBean;
 
 import com.senseinfosys.pubsense.gateway.domain.app.AppService;
@@ -92,8 +92,8 @@ public class StatelessTokenFilter extends GenericFilterBean {
 		byte[] base64Token = header.substring(6).getBytes("UTF-8");
 		byte[] decoded;
 		try {
-			decoded = Base64.decode(base64Token);
-		} catch (IllegalArgumentException e) {
+			decoded = Base64.getDecoder().decode(base64Token);
+		} catch (Exception e) {
 			throw new BadCredentialsException("Failed to decode authorization token.");
 		}
 
