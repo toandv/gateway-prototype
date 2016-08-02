@@ -28,8 +28,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests().antMatchers(HttpMethod.POST, "/v1/api/apps/auth/token").permitAll().anyRequest()
-				.fullyAuthenticated().and().httpBasic().disable().csrf().disable()
+		http.authorizeRequests()
+				.anyRequest().fullyAuthenticated()
+				.and()
+				.httpBasic().disable().csrf().disable()
 				.addFilterAfter(new StatelessTokenFilter(tokenService, userService, appService),
 						BasicAuthenticationFilter.class);
 	}
