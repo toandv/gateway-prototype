@@ -27,9 +27,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests().anyRequest().fullyAuthenticated().and().httpBasic().disable().csrf().disable()
-				.addFilterAfter(new StatelessTokenFilter(tokenService, userService, appService),
+		http.authorizeRequests()
+			.anyRequest().fullyAuthenticated()
+			.and().httpBasic().disable()
+			.csrf().disable()
+			.addFilterAfter(new StatelessTokenFilter(tokenService, userService, appService),
 						BasicAuthenticationFilter.class);
 	}
+	
+	
+	
+	
 
 }
