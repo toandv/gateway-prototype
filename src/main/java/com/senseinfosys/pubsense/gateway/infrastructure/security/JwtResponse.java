@@ -20,7 +20,7 @@ public class JwtResponse {
 		return token;
 	}
 
-	public Date getExpireDate() {
+	public Date getExpiredAt() {
 		return expiredAt;
 	}
 
