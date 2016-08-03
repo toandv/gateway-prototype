@@ -10,6 +10,7 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 
 import com.senseinfosys.pubsense.gateway.domain.app.AppService;
 import com.senseinfosys.pubsense.gateway.domain.user.UserService;
+import com.senseinfosys.pubsense.gateway.infrastructure.json.JsonService;
 
 @Configuration
 @EnableWebSecurity(debug = true)
@@ -24,6 +25,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	private AppService appService;
+	
+	@Autowired
+	JsonService jsonService;
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
@@ -31,12 +35,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.anyRequest().fullyAuthenticated()
 			.and().httpBasic().disable()
 			.csrf().disable()
-			.addFilterAfter(new StatelessTokenFilter(tokenService, userService, appService),
+			.addFilterAfter(new StatelessTokenFilter(tokenService, userService, appService, jsonService),
 						BasicAuthenticationFilter.class);
 	}
-	
-	
-	
-	
 
 }

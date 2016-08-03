@@ -6,20 +6,12 @@ public class TokenException extends DomainException {
 
 	private static final long serialVersionUID = 1296717076321471486L;
 
-	public TokenException() {
-		super();
+	public TokenException(int errorCode, String errorMessage, Throwable cause) {
+		super(errorCode, errorMessage, cause);
 	}
 
-	public TokenException(String message, Throwable cause) {
-		super(message, cause);
-	}
-
-	public TokenException(String message) {
-		super(message);
-	}
-
-	public TokenException(Throwable cause) {
-		super(cause);
+	public TokenException(int errorCode, String errorMessage) {
+		super(errorCode, errorMessage);
 	}
 
 }

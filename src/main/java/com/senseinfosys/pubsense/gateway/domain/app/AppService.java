@@ -29,7 +29,7 @@ public class AppService {
 	public Application find(String appId, String appSecret) {
 		Application app = appRepository.findByIdAndSecret(appId, appSecret);
 		if (app == null) {
-			throw new AppException("Not found.");
+			throw new AppException(404, "App not found.");
 		}
 		return app;
 	}

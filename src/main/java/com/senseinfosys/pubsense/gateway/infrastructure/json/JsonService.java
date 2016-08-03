@@ -17,7 +17,7 @@ public class JsonService {
 		try {
 			return objectMapper.writeValueAsString(value);
 		} catch (JsonProcessingException e) {
-			throw new JsonException(e.getMessage(), e);
+			throw new JsonException(400, "Json error.", e);
 		}
 	}
 
@@ -25,7 +25,7 @@ public class JsonService {
 		try {
 			return objectMapper.readValue(json, type);
 		} catch (IOException e) {
-			throw new JsonException(e.getMessage(), e);
+			throw new JsonException(400, "Json error.", e);
 		}
 	}
 }

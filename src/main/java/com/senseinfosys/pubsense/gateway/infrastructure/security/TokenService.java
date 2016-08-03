@@ -42,7 +42,7 @@ public class TokenService {
 			String json = Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody().getSubject();
 			return jsonService.deserialize(json, JwtSubject.class);
 		} catch (Exception e) {
-			throw new TokenException(e.getMessage(), e);
+			throw new TokenException(401, "Invalid authorization token.", e);
 		}
 	}
 }
